@@ -23,27 +23,39 @@ $$
 
 
 The optimal action-value function:
+
 $$
 Q^{*}(s,a)=max_{\pi } \mathbb{E}[R_{t}|s_{t}=s,a_{t}=a,\pi]
 $$ 
 This means the maximum expected return achievable, after seeing some sequence $s$ and then taking some action $a$ and by following policy $\pi$, which mapping sequence to actions.
 
-The $Q^{*}(s,a)$ could be expressed using Bellman’s equation:
+The $ Q^{*}(s,a) $ could be expressed using Bellman’s equation:
+
 $$
 Q^{*}(s,a)=\mathbb{E}_{s^{'}\sim  \varepsilon }[r+\gamma max_{ {a}'}Q^{*}({s}',{a}')|s,a]
 $$ 
+
 However, $Q^{*}(s,a)$ is an optimal value. Normally, people use using the Bellman equation 
-$$Q_{i+1}(s,a)=\mathbb{E}[r+\gamma max_{ {a}'}Q_{i}({s}',{a}')|s,a]
+
 $$
-as an iterative update to converge to the optimal action-value function, when $Q_{i}\rightarrow Q^{*} $ as $i \rightarrow \infty $.
+Q_{i+1}(s,a)=\mathbb{E}[r+\gamma max_{ {a}'}Q_{i}({s}',{a}')|s,a]
+$$
+
+as an iterative update to converge to the optimal action-value function, when $ Q_{i}\rightarrow Q^{*} $ as $i \rightarrow \infty $.
 
 In this article, a neural network is used as a non-linear approximator to estimate the action-value function, $Q(s,a;\theta )\approx Q^{*}(s,a)$, where $\theta$ stands for the weights.
 The loss function could be decribed as follows:
-$$L_{i}(\theta_{i})=\mathbb{E}_{s,a\sim  \rho (\cdot)}[(y_{i}-Q(s,a;\theta_{i}))^{2}]
-$$
-, where $y_{i}=\mathbb{E}_{ {s}'\sim \varepsilon }[r+\gamma max_{ {a}'}Q_{i}({s}',{a}';\theta_{i-1})|s,a]$ and $\rho(s,a)$ is a probability distribution over sequences $s$ and actions $a$.
 
-### $\epsilon $-greedy 
+$$
+L_{i}(\theta_{i})=\mathbb{E}_{s,a\sim  \rho (\cdot)}[(y_{i}-Q(s,a;\theta_{i}))^{2}]
+$$
+, where 
+$$
+y_{i}=\mathbb{E}_{ {s}'\sim \varepsilon }[r+\gamma max_{ {a}'}Q_{i}({s}',{a}';\theta_{i-1})|s,a]
+$$ 
+and $ \rho(s,a) $ is a probability distribution over sequences $s$ and actions $ a $.
+
+### $ \epsilon $-greedy 
 The next action is selected using $\epsilon $-greedy strategy.
 $$
 \begin{cases}
